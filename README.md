@@ -7,4 +7,10 @@
 
 ### Install
 
+##### Init
+
 > `npx create-next-app --example with-tailwindcss proj-twitter-clone`
+
+##### Post-init
+
+- `yarn add @heroicons/react@v1`
