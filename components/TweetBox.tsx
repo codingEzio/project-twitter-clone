@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   PhotographIcon,
   SearchCircleIcon,
@@ -8,6 +8,8 @@ import {
 } from '@heroicons/react/outline';
 
 export const TweetBox = () => {
+  const [input, setInput] = useState<string>('');
+
   return (
     <div className="flex space-x-2 p-5">
       <img
@@ -21,6 +23,8 @@ export const TweetBox = () => {
           <input
             type="text"
             placeholder="What's Happening?"
+            value={input}
+            onChange={event => setInput(event.target.value)}
             className="h-24 w-full text-xl outline-none placeholder:text-xl"
           />
           <div className="flex items-center">
@@ -32,7 +36,10 @@ export const TweetBox = () => {
               <LocationMarkerIcon className="h-5 w-5" />
             </div>
 
-            <button className="bg-twitter px-5 font-bold text-white rounded-full">
+            <button
+              className="bg-twitter px-5 py-2 font-bold text-white rounded-full disabled:opacity-40"
+              disabled={!input}
+            >
               Tweet
             </button>
           </div>
