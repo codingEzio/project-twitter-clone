@@ -13,7 +13,7 @@ import SidebarRow from './SidebarRow'
 
 export const Sidebar = () => {
   return (
-    <div>
+    <div className='flex flex-col'>
         <img className='h-10 w-10' src="https://via.placeholder.com/350x350?text=Sidebar" alt="Placeholder image which its size is 150px" />
 
         <SidebarRow Icon={HomeIcon} title="Home" />
@@ -22,7 +22,7 @@ export const Sidebar = () => {
         <SidebarRow Icon={MailIcon} title="Messages" />
         <SidebarRow Icon={BookmarkIcon} title="Bookmarks" />
         <SidebarRow Icon={CollectionIcon} title="Lists" />
-        <SidebarRow Icon={UserIcon} title="Profile" />
+        <SidebarRow Icon={UserIcon} title="Sign In" />
         <SidebarRow Icon={DotsCircleHorizontalIcon} title="More" />
     </div>
   )
