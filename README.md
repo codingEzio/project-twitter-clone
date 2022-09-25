@@ -13,4 +13,7 @@
 
 ##### Post-init
 
-- `yarn add @heroicons/react@v1`
+```bash
+yarn add @heroicons/react@v1
+yarn add @react-twitter-embed
+```
