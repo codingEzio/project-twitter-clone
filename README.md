@@ -28,4 +28,9 @@ yarn global add @sanity/cli
 sanity init --coupon sonny2022
 
 cd sanity && sanity start
+
+
+# Sanity toolkit for Next.js
+# Consider it as utilities for the datastore to integrate with Next.js
+yarn add next-sanity @portabletext/react @sanity/image-url
 ```
