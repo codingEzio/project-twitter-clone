@@ -10,7 +10,7 @@ interface Props {
 
 export const Feed = ({ tweets }: Props) => {
   return (
-    <div>
+    <div className="col-span-5 mt-2 px-2">
       {/* Manual refreshing icon */}
       <div className="col-span-7 lg:col-span-5">
         <div className="flex items-center justify-between">
