@@ -6,14 +6,19 @@ import {
   CalendarIcon,
   LocationMarkerIcon,
 } from '@heroicons/react/outline';
+import { useSession } from 'next-auth/react';
 
 export const TweetBox = () => {
   const [input, setInput] = useState<string>('');
+  const { data: session } = useSession();
 
   return (
     <div className="flex space-x-2 p-5">
       <img
-        src="https://via.placeholder.com/350x350?text=Avatar"
+        src={
+          session?.user?.image ||
+          'https://via.placeholder.com/350x350?text=Avatar'
+        }
         alt="Placeholder user avatar"
         className="h-14 w-14 object-cover rounded-full mt-4"
       />
