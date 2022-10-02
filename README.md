@@ -49,3 +49,17 @@ yarn add next-sanity @portabletext/react @sanity/image-url
   > Higher level abstraction for the pages to use
 - `pages/index.tsx`
   > Call our pre-built fetch APIs and render those data been returned
+
+### Misc
+
+##### Interacting with Data
+
+```bash
+yarn global add groq-cli
+
+sanity documents \
+    query "*[_type == 'myDocument'][0...20]._id" \
+    --apiVersion 2021-03-25 \
+      | groq "*" -o ndjson  \
+      | xargs sanity documents delete
+``` 
