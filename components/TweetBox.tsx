@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, Dispatch, SetStateAction } from 'react';
 import {
   PhotographIcon,
   SearchCircleIcon,
@@ -7,8 +7,15 @@ import {
   LocationMarkerIcon,
 } from '@heroicons/react/outline';
 import { useSession } from 'next-auth/react';
+import { TweetBody, Tweet } from '../typing';
+import { fetchTweets } from '../utils/fetchTweet';
+import toast from 'react-hot-toast';
 
-export const TweetBox = () => {
+interface Props {
+  setTweets: Dispatch<SetStateAction<Tweet[]>>;
+}
+
+export const TweetBox = ({ setTweets }: Props) => {
   const [input, setInput] = useState<string>('');
   const { data: session } = useSession();
 
@@ -28,6 +35,53 @@ export const TweetBox = () => {
     setImage(imageInputRef.current.value);
 
     imageInputRef.current.value = '';
+    setImageUrlBoxIsOpen(false);
+  };
+
+  const postTweet = async () => {
+    // Construct the body to post (to the Sanity data store server)
+    const tweetInfo: TweetBody = {
+      text: input,
+      username: session?.user?.name || 'Unknown User',
+      profileImg:
+        session?.user?.image ||
+        'https://via.placeholder.com/350x350?text=Profile+Image',
+      image: image,
+    };
+
+    // Use the constructed tweet body to make a request to /api/addTweet,
+    // therefore letting the Sanity Client underneath to make the mutation
+    // request (go see the addTweet.ts).
+    const result = await fetch('/api/addTweet', {
+      body: JSON.stringify(tweetInfo),
+      method: 'POST',
+    });
+
+    const json = await result.json();
+
+    // Add the newly posted tweets to our timeline (Feed.tsx)
+    const newTweets = await fetchTweets();
+    setTweets(newTweets);
+
+    // Remind the user that the tweet has been posted successfully
+    toast('Tweet Posted', {
+      icon: '🤠',
+    });
+
+    return json;
+  };
+
+  const handleSubmit = (
+    e: React.MouseEvent<HTMLButtonElement, globalThis.MouseEvent>,
+  ) => {
+    e.preventDefault();
+
+    // Construct, call, making changes, re-fetch again
+    postTweet();
+
+    // Reset everything back to normal (ready for the next 'tweeting')
+    setInput('');
+    setImage('');
     setImageUrlBoxIsOpen(false);
   };
 
@@ -64,8 +118,9 @@ export const TweetBox = () => {
             </div>
 
             <button
-              className="bg-twitter px-5 py-2 font-bold text-white rounded-full disabled:opacity-40"
+              onClick={handleSubmit}
               disabled={!input || !session}
+              className="bg-twitter px-5 py-2 font-bold text-white rounded-full disabled:opacity-40"
             >
               Tweet
             </button>

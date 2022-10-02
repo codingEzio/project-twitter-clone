@@ -39,7 +39,7 @@ export const Feed = ({ tweets: tweetsProp }: Props) => {
 
       {/* Tweetbox */}
       <div>
-        <TweetBox />
+        <TweetBox setTweets={setTweets} />
       </div>
 
       {/* Feed */}
