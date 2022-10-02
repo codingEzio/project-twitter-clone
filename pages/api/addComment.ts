@@ -40,7 +40,9 @@ export default async function handler(
 
   const result = await fetch(apiEndPoint, {
     headers: {
-      'content-type': 'application/json',
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*',
+      Accept: 'application/json',
       Authorization: `Bearer ${process.env.SANITY_API_TOKEN}`,
     },
     body: JSON.stringify(mutations),
