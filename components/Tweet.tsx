@@ -23,51 +23,43 @@ function Tweet({ tweet }: Props) {
 
   const { data: session } = useSession();
 
+  useEffect(() => {
+    refreshComments();
+  }, []);
+
   const refreshComments = async () => {
     const comments: Comment[] = await fetchComments(tweet._id);
 
     setComments(comments);
   };
 
-  const postComment = async () => {
-    const commentInfo: CommentBody = {
-      tweetId: tweet._id,
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const commentToast = toast.loading('Posting Comment...');
+
+    const comment: CommentBody = {
       comment: input,
+      tweetId: tweet._id,
       username: session?.user?.name || 'Unknown User',
       profileImg:
         session?.user?.image ||
         'https://via.placeholder.com/350x350?text=Profile+Image',
     };
 
-    const result = await fetch('/api/addComment', {
-      body: JSON.stringify(commentInfo),
+    const result = await fetch(`/api/addComment`, {
+      body: JSON.stringify(comment),
       method: 'POST',
     });
 
-    const json = await result.json();
-
-    const newComments = await fetchComments(tweet._id);
-    setComments(newComments);
-
-    toast('Commented Added', {
-      icon: '🥸',
+    toast.success('Comment Posted!', {
+      id: commentToast,
     });
-
-    return json;
-  };
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    postComment();
 
     setInput('');
     setCommentBoxVisible(false);
-  };
-
-  useEffect(() => {
     refreshComments();
-  }, []);
+  };
 
   return (
     <div className="flex flex-col space-x-3 border-y p-5 border-gray-100">
