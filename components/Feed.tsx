@@ -25,7 +25,7 @@ export const Feed = ({ tweets: tweetsProp }: Props) => {
   };
 
   return (
-    <div className="col-span-5 mt-2 px-2 max-h-screen overflow-scroll border-x lg:col-span-5">
+    <div className="col-span-5 mt-2 px-2 max-h-screen overflow-scroll border-x lg:col-span-5 scrollbar-hide">
       {/* Manual refreshing icon */}
       <div className="col-span-7 lg:col-span-5">
         <div className="flex items-center justify-between">
